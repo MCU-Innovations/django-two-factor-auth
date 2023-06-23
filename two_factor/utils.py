@@ -6,6 +6,11 @@ from django_otp import devices_for_user
 USER_DEFAULT_DEVICE_ATTR_NAME = "_default_device"
 
 
+def webauthn_device(user):
+    if getattr(user, 'webauthn_keys', False):
+        return user.webauthn_keys.first()
+
+
 def default_device(user):
     if not user or user.is_anonymous:
         return

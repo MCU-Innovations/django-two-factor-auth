@@ -12,7 +12,7 @@ from two_factor.plugins.phonenumber.utils import (
 )
 
 from ..forms import DisableForm
-from ..utils import default_device
+from ..utils import default_device, webauthn_device
 from .utils import class_view_decorator
 
 
@@ -39,7 +39,8 @@ class ProfileView(TemplateView):
             'default_device_type': default_device(self.request.user).__class__.__name__,
             'backup_phones': backup_phones(self.request.user),
             'backup_tokens': backup_tokens,
-            'available_phone_methods': get_available_phone_methods()
+            'available_phone_methods': get_available_phone_methods(),
+            'webauthn_device': webauthn_device(self.request.user),
         }
 
 
