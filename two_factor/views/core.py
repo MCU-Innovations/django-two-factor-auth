@@ -512,7 +512,9 @@ class SetupView(RedirectURLMixin, IdempotentSessionWizardView):
         return form_list
 
     def get_available_methods(self):
-        return registry.get_methods()
+        methods = registry.get_methods()
+        allowed_methods = getattr(settings, 'TWO_FACTOR_ALLOWED_METHODS', ["generator", "sms", "call", "email", "yubikey", "webauthn"])
+        return [m for m in methods if m.code in allowed_methods]
 
     def render_next_step(self, form, **kwargs):
         """
